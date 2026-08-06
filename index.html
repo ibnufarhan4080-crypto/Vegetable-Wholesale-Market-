@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>අලුත් එළවළු වෙළඳසැල | Fresh Vegetable Market</title>
+  <title>නුවරඑළිය එළවළු තොග වෙළෙඳසල | Fresh Green Vegetables</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f4f7f6;
@@ -18,34 +16,27 @@
 
     /* Main Header */
     .main-header {
-      background: linear-gradient(rgba(27, 94, 32, 0.85), rgba(46, 125, 50, 0.85)), 
+      background: linear-gradient(rgba(27, 94, 32, 0.9), rgba(46, 125, 50, 0.9)), 
                   url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop');
       background-size: cover;
       background-position: center;
       color: white;
       text-align: center;
-      padding: 30px 15px;
+      padding: 20px 15px;
     }
-    .main-header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-    .main-header p {
-      margin: 8px 0 15px 0;
-      font-size: 13px;
-      opacity: 0.9;
-    }
+    .main-header h1 { margin: 0; font-size: 20px; font-weight: 700; }
+    .main-header p.sub-title { margin: 4px 0 8px 0; font-size: 13px; opacity: 0.9; }
+    .main-header p.address { margin: 0 0 12px 0; font-size: 12px; opacity: 0.8; font-style: italic; }
 
     /* Quick Contact Buttons */
     .quick-contact {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
     }
     .call-btn, .chat-btn {
       text-decoration: none;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: bold;
@@ -56,44 +47,42 @@
     }
     .call-btn { background-color: #0288d1; }
     .chat-btn { background-color: #25D366; }
-    .call-btn.alt { background-color: #0277bd; }
-    .chat-btn.alt { background-color: #128C7E; }
 
     /* Layout Container */
     .container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 15px;
+      padding: 10px;
     }
 
     /* Search & Filter Section */
     .filter-section {
       background: #ffffff;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 15px;
     }
     .search-box input {
       width: 100%;
-      padding: 10px 15px;
+      padding: 8px 12px;
       border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 6px;
+      font-size: 13px;
       outline: none;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     .category-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
     }
     .filter-btn {
-      padding: 6px 12px;
+      padding: 5px 10px;
       border: 1px solid #e0e0e0;
       background: #f5f5f5;
-      border-radius: 20px;
-      font-size: 12px;
+      border-radius: 16px;
+      font-size: 11px;
       cursor: pointer;
       font-weight: 600;
       color: #555;
@@ -107,144 +96,149 @@
     /* Product Grid Layout */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
       justify-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
-    /* Compact Card Styles */
+    /* Ultra Compact Card Styles */
     .product-card {
       width: 100%;
-      max-width: 320px;
       background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
       overflow: hidden;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e8f5e9;
     }
     .badge-container {
       position: absolute;
-      top: 8px;
-      left: 8px;
+      top: 6px;
+      left: 6px;
       display: flex;
-      gap: 6px;
+      flex-direction: column;
+      gap: 3px;
       z-index: 2;
     }
     .today-stock-badge {
       background: rgba(255, 255, 255, 0.95);
       color: #1b5e20;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-size: 9px;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 4px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      gap: 3px;
+      border: 1px solid #a5d6a7;
     }
     .live-dot {
       width: 6px;
       height: 6px;
-      background-color: #2e7d32;
+      background-color: #00c853;
       border-radius: 50%;
+      box-shadow: 0 0 4px #00c853;
     }
     .save-badge {
-      background: #e65100;
+      background: #2e7d32;
       color: #ffffff;
-      padding: 3px 6px;
+      padding: 2px 4px;
       border-radius: 4px;
-      font-size: 10px;
+      font-size: 8px;
       font-weight: 700;
     }
     .product-img {
       width: 100%;
-      height: 130px;
+      height: 100px;
       object-fit: cover;
     }
     .product-details {
-      padding: 10px 12px 12px 12px;
-    }
-    .header-row {
+      padding: 8px;
       display: flex;
+      flex-direction: column;
+      flex-grow: 1;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
     }
     .title-si {
       margin: 0;
-      font-size: 17px;
+      font-size: 14px;
       color: #1b5e20;
       font-weight: 700;
       line-height: 1.1;
     }
     .title-sub {
-      margin: 2px 0 0 0;
+      margin: 1px 0 6px 0;
       color: #616161;
-      font-size: 11px;
+      font-size: 10px;
     }
     .pricing-toggle {
       display: flex;
-      gap: 4px;
-      margin-bottom: 8px;
-      background: #f5f5f5;
-      padding: 3px;
-      border-radius: 6px;
+      gap: 2px;
+      margin-bottom: 6px;
+      background: #e8f5e9;
+      padding: 2px;
+      border-radius: 4px;
     }
     .toggle-btn {
       flex: 1;
-      padding: 4px;
+      padding: 3px 2px;
       border: none;
       background: transparent;
-      border-radius: 4px;
+      border-radius: 3px;
       cursor: pointer;
-      font-size: 11px;
-      color: #616161;
-      line-height: 1.2;
+      font-size: 9px;
+      color: #333;
+      line-height: 1.1;
     }
     .toggle-btn.active {
       background: #ffffff;
-      color: #2e7d32;
+      color: #1b5e20;
       font-weight: 700;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
     .controls-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 4px;
+      margin-bottom: 6px;
     }
     .qty-control {
       display: flex;
       align-items: center;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
+      border: 1px solid #c8e6c9;
+      border-radius: 4px;
       overflow: hidden;
-      width: 130px;
-      height: 32px;
+      width: 75px;
+      height: 26px;
     }
     .qty-btn {
-      width: 32px;
+      width: 20px;
       height: 100%;
       border: none;
-      background: #f5f5f5;
-      font-size: 16px;
-      color: #424242;
+      background: #e8f5e9;
+      font-size: 12px;
+      color: #1b5e20;
       cursor: pointer;
+      padding: 0;
+      font-weight: bold;
     }
     .qty-control input {
       width: 100%;
       text-align: center;
       border: none;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
       outline: none;
+      padding: 0;
     }
     .unit {
-      padding-right: 8px;
+      padding-right: 4px;
       color: #757575;
-      font-size: 11px;
+      font-size: 9px;
       font-weight: 600;
     }
     .total-price {
@@ -252,28 +246,21 @@
     }
     .total-price span {
       display: block;
-      font-size: 10px;
+      font-size: 8px;
       color: #757575;
     }
     .total-price strong {
-      font-size: 16px;
+      font-size: 12px;
       color: #2e7d32;
     }
-    .btn-group {
-      display: flex;
-      gap: 6px;
-    }
-    .add-btn, .whatsapp-btn {
-      flex: 1;
+    .add-btn {
+      width: 100%;
       border: none;
-      padding: 8px;
-      border-radius: 6px;
+      padding: 6px;
+      border-radius: 4px;
       font-weight: 700;
       font-size: 11px;
       cursor: pointer;
-      text-align: center;
-    }
-    .add-btn {
       background: #2e7d32;
       color: #ffffff;
       display: flex;
@@ -281,51 +268,26 @@
       justify-content: center;
       gap: 4px;
     }
-    .plus-badge {
-      background-color: #ffcc00;
-      color: #1b5e20;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 11px;
-    }
-    .whatsapp-btn {
-      background: #25D366;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
+    .add-btn:active {
+      background: #1b5e20;
     }
 
     /* Order & Form Section */
     .contact-section {
       background: #ffffff;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-    .contact-section h2 {
-      margin-top: 0;
-      font-size: 16px;
-      color: #1b5e20;
-    }
-    .contact-card p {
-      font-size: 12px;
-      color: #666;
-      margin-bottom: 12px;
-    }
+    .contact-section h2 { margin-top: 0; font-size: 14px; color: #1b5e20; }
+    .contact-card p { font-size: 11px; color: #666; margin-bottom: 10px; }
     #whatsappForm input, #whatsappForm textarea {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
+      padding: 8px;
+      margin-bottom: 8px;
       border: 1px solid #e0e0e0;
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 12px;
       outline: none;
     }
     #whatsappForm button {
@@ -339,17 +301,9 @@
       font-size: 13px;
       cursor: pointer;
     }
-    .map-container {
-      margin-top: 20px;
-    }
-    .map-container h3 {
-      font-size: 14px;
-      color: #1b5e20;
-      margin-bottom: 8px;
-    }
-    .map-container iframe {
-      border-radius: 8px;
-    }
+    .map-container { margin-top: 15px; }
+    .map-container h3 { font-size: 13px; color: #1b5e20; margin-bottom: 6px; }
+    .map-container iframe { border-radius: 8px; }
   </style>
 </head>
 <body>
@@ -357,14 +311,13 @@
   <!-- Header Section -->
   <header class="main-header">
     <div class="header-overlay">
-      <h1>🥦 නුවරඑළිය එළවළු තොග වෙළෙඳසල 🍅</h1>
-      <p>Nuwara Eliya Vegetable Wholesale Market</p>
+      <h1>නුවරඑළිය එළවළු තොග වෙළෙඳසල</h1>
+      <p class="sub-title">Nuwara Eliya Fresh Green Vegetables Market</p>
+      <p class="address">📍 New Street, Weligama, Sri Lanka.</p>
       
       <div class="quick-contact">
-        <a href="tel:0769073232" class="call-btn">📞 076 907 3232</a>
-        <a href="https://wa.me/94769073232" target="_blank" class="chat-btn">💬 WhatsApp 1</a>
-        <a href="tel:0759073223" class="call-btn alt">📞 075 907 3223</a>
-        <a href="https://wa.me/94759073223" target="_blank" class="chat-btn alt">💬 WhatsApp 2</a>
+        <a href="tel:0759073223" class="call-btn">📞 Call: 0759073223</a>
+        <a href="https://wa.me/94769073232" target="_blank" class="chat-btn">💬 Whatsapp: 0769073232</a>
       </div>
     </div>
   </header>
@@ -374,17 +327,14 @@
     <!-- Search & Filter Section -->
     <section class="filter-section">
       <div class="search-box">
-        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="🔍 සොයන්න... / தேடுக... / Search vegetable...">
+        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="🔍 සොයන්න... / Search green vegetable...">
       </div>
       
       <div class="category-grid">
-        <button class="filter-btn active" onclick="filterCategory('all', this)">සියල්ල (All)</button>
-        <button class="filter-btn" onclick="filterCategory('upcountry', this)">උඩරට එළවළු</button>
-        <button class="filter-btn" onclick="filterCategory('lowcountry', this)">පහතරට එළවළු</button>
-        <button class="filter-btn" onclick="filterCategory('yams', this)">අල වර්ග</button>
-        <button class="filter-btn" onclick="filterCategory('greens', this)">පලා වර්ග</button>
-        <button class="filter-btn" onclick="filterCategory('grains', this)">ධාන්‍ය</button>
-        <button class="filter-btn" onclick="filterCategory('fruits', this)">පලතුරු</button>
+        <button class="filter-btn active" onclick="filterCategory('all', this)">සියලුම කොළ එළවළු (All Greens)</button>
+        <button class="filter-btn" onclick="filterCategory('upcountry', this)">උඩරට (Upcountry)</button>
+        <button class="filter-btn" onclick="filterCategory('lowcountry', this)">පහතරට (Lowcountry)</button>
+        <button class="filter-btn" onclick="filterCategory('greens', this)">පලා වර්ග (Leafy Greens)</button>
       </div>
     </section>
 
@@ -395,12 +345,12 @@
     <section class="contact-section">
       <h2>💚 WhatsApp හරහා ඇණවුම් කරන්න (WhatsApp Order)</h2>
       <div class="contact-card">
-        <p>ඔබට අවශ්‍ය එළවළු ඉහත ලැයිස්තුවෙන් තෝරන්න නැතහොත් පහත පෝරමය පුරවා එවන්න:</p>
+        <p>ඔබට අවශ්‍ය අලුත් කොළ එළවළු ඉහත ලැයිස්තුවෙන් තෝරන්න නැතහොත් පහත පෝරමය පුරවා එවන්න:</p>
         
         <form id="whatsappForm" onsubmit="sendFormToWhatsApp(event)">
           <input type="text" id="custName" placeholder="ඔබගේ නම (Name)" required>
           <input type="text" id="custAddress" placeholder="ලිපිනය / ස්ථානය (Address)" required>
-          <textarea id="orderItems" rows="4" placeholder="අවශ්‍ය එළවළු සහ ප්‍රමාණය (උදා: කැරට් 2.5kg, බීට් 10kg...)" required></textarea>
+          <textarea id="orderItems" rows="4" placeholder="අවශ්‍ය එළවළු සහ ප්‍රමාණය (උදා: බෝංචි 2.5kg, නිවිති 3kg...)" required></textarea>
           
           <button type="submit">
             📲 WhatsApp හරහා යවන්න (Send via WhatsApp)
@@ -411,7 +361,7 @@
       <!-- Google Map -->
       <div class="map-container">
         <h3>📍 අපගේ ස්ථානය (Location)</h3>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15873.351221711202!2d80.4136!3d5.9723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae13ed3e18a287d%3A0xb3ff7f6cb26bb9bc!2sWeligama!5e0!3m2!1sen!2slk!4v1700000000000!5m2!1sen!2slk" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15873.351221711202!2d80.4136!3d5.9723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae13ed3e18a287d%3A0xb3ff7f6cb26bb9bc!2sWeligama!5e0!3m2!1sen!2slk!4v1700000000000!5m2!1sen!2slk" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
       </div>
     </section>
 
@@ -420,19 +370,46 @@
   <script>
     const primaryPhone = "94769073232";
 
-    // Products Data
+    // ONLY GREEN VEGETABLES DATA
     const products = [
-      { id: 1, nameSi: 'බෝංචි', nameSub: 'பீன்ஸ் | Beans', category: 'upcountry', retail: 260, wholesale: 220, img: 'https://images.unsplash.com/photo-1567375698348-5d9d5ae99de0?q=80&w=600' },
-      { id: 2, nameSi: 'කැරට්', nameSub: 'கேரட் | Carrot', category: 'upcountry', retail: 220, wholesale: 180, img: 'https://images.unsplash.com/photo-1598170845058-12ef4a457939?q=80&w=600' },
-      { id: 3, nameSi: 'බීට්රූට්', nameSub: 'பீட்ரூட் | Beetroot', category: 'upcountry', retail: 230, wholesale: 190, img: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?q=80&w=600' },
-      { id: 4, nameSi: 'ලීක්ස්', nameSub: 'லீக்ஸ் | Leeks', category: 'upcountry', retail: 240, wholesale: 200, img: 'https://images.unsplash.com/photo-1628773822503-930a8581e285?q=80&w=600' },
-      { id: 5, nameSi: 'අල', nameSub: 'உருளை | Potato', category: 'yams', retail: 320, wholesale: 280, img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=600' },
-      { id: 6, nameSi: 'ගෝවා', nameSub: 'கோவா | Cabbage', category: 'upcountry', retail: 180, wholesale: 150, img: 'https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?q=80&w=600' },
-      { id: 7, nameSi: 'ගොටුකොළ', nameSub: 'வல்லாரை | Gotukola', category: 'greens', retail: 60, wholesale: 45, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
-      { id: 8, nameSi: 'කෙසෙල්', nameSub: 'வாழைப்பழம் | Banana', category: 'fruits', retail: 220, wholesale: 180, img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?q=80&w=600' }
+      // --- Upcountry Greens & Vegetables ---
+      { id: 1, nameSi: 'බෝංචි', nameSub: 'Green Beans', category: 'upcountry', retail: 260, wholesale: 220, img: 'https://images.unsplash.com/photo-1567375698348-5d9d5ae99de0?q=80&w=600' },
+      { id: 2, nameSi: 'ගෝවා', nameSub: 'Green Cabbage', category: 'upcountry', retail: 180, wholesale: 140, img: 'https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?q=80&w=600' },
+      { id: 3, nameSi: 'මාළුමිරිස්', nameSub: 'Green Capsicum', category: 'upcountry', retail: 380, wholesale: 320, img: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?q=80&w=600' },
+      { id: 4, nameSi: 'පිපිඤ්ඤා', nameSub: 'Cucumber', category: 'upcountry', retail: 120, wholesale: 90, img: 'https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?q=80&w=600' },
+      { id: 5, nameSi: 'අමු මිරිස්', nameSub: 'Green Chili', category: 'upcountry', retail: 400, wholesale: 350, img: 'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?q=80&w=600' },
+      { id: 6, nameSi: 'ලීක්ස්', nameSub: 'Leeks', category: 'upcountry', retail: 240, wholesale: 200, img: 'https://images.unsplash.com/photo-1628773822503-930a8581e285?q=80&w=600' },
+      { id: 7, nameSi: 'සලාද', nameSub: 'Green Lettuce', category: 'upcountry', retail: 250, wholesale: 200, img: 'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?q=80&w=600' },
+      { id: 8, nameSi: 'බෙල් පෙපර් - කොළ', nameSub: 'Green Bell Pepper', category: 'upcountry', retail: 600, wholesale: 500, img: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?q=80&w=600' },
+      { id: 9, nameSi: 'ගර්කින්', nameSub: 'Gherkin', category: 'upcountry', retail: 300, wholesale: 250, img: 'https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?q=80&w=600' },
+      { id: 10, nameSi: 'පාස්ලි', nameSub: 'Parsley', category: 'upcountry', retail: 400, wholesale: 350, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
+      { id: 11, nameSi: 'සැල්දරි', nameSub: 'Celery', category: 'upcountry', retail: 450, wholesale: 380, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
+      { id: 12, nameSi: 'මිංචි කොළ', nameSub: 'Mint Leaves', category: 'upcountry', retail: 300, wholesale: 250, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
+      { id: 13, nameSi: 'කොත්තමල්ලි කොළ', nameSub: 'Coriander Leaves', category: 'upcountry', retail: 350, wholesale: 290, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
+      { id: 14, nameSi: 'අයිස්බර්ග්', nameSub: 'Iceberg Lettuce', category: 'upcountry', retail: 500, wholesale: 420, img: 'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?q=80&w=600' },
+
+      // --- Lowcountry Green Vegetables ---
+      { id: 15, nameSi: 'වැටකොළු', nameSub: 'Ridge Gourd', category: 'lowcountry', retail: 220, wholesale: 170, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
+      { id: 16, nameSi: 'බණ්ඩක්කා', nameSub: "Lady's Fingers / Okra", category: 'lowcountry', retail: 180, wholesale: 140, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
+      { id: 17, nameSi: 'පතෝල', nameSub: 'Snake Gourd', category: 'lowcountry', retail: 200, wholesale: 150, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
+      { id: 18, nameSi: 'කරවිල', nameSub: 'Bitter Gourd', category: 'lowcountry', retail: 280, wholesale: 220, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
+      { id: 19, nameSi: 'තුඹ කරවිල', nameSub: 'Thumba Karawila', category: 'lowcountry', retail: 450, wholesale: 380, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
+      { id: 20, nameSi: 'දඹල', nameSub: 'Winged Bean', category: 'lowcountry', retail: 240, wholesale: 190, img: 'https://images.unsplash.com/photo-1567375698348-5d9d5ae99de0?q=80&w=600' },
+      { id: 21, nameSi: 'මුරුංගා', nameSub: 'Drumsticks', category: 'lowcountry', retail: 350, wholesale: 280, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
+      { id: 22, nameSi: 'මෑ කරල්', nameSub: 'Yard-Long Beans', category: 'lowcountry', retail: 220, wholesale: 170, img: 'https://images.unsplash.com/photo-1567375698348-5d9d5ae99de0?q=80&w=600' },
+      { id: 23, nameSi: 'චව් චව්', nameSub: 'Chaw Chaw', category: 'lowcountry', retail: 200, wholesale: 150, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
+      { id: 24, nameSi: 'දෙහි', nameSub: 'Green Lime', category: 'lowcountry', retail: 400, wholesale: 320, img: 'https://images.unsplash.com/photo-1582979512210-99b6a53386f9?q=80&w=600' },
+      { id: 25, nameSi: 'නයි මිරිස් (කොළ)', nameSub: 'Green Nai Miris', category: 'lowcountry', retail: 800, wholesale: 700, img: 'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?q=80&w=600' },
+
+      // --- Leafy Greens (පලා වර්ග) ---
+      { id: 26, nameSi: 'ලුණු කොළ', nameSub: 'Onion Leaves', category: 'greens', retail: 120, wholesale: 90, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
+      { id: 27, nameSi: 'මුකුණුවැන්න', nameSub: 'Mukunuwenna', category: 'greens', retail: 60, wholesale: 40, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
+      { id: 28, nameSi: 'ගොටුකොළ', nameSub: 'Gotukola', category: 'greens', retail: 60, wholesale: 40, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
+      { id: 29, nameSi: 'කරපිංචා', nameSub: 'Curry Leaves', category: 'greens', retail: 100, wholesale: 70, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
+      { id: 30, nameSi: 'නිවිති', nameSub: 'Spinach', category: 'greens', retail: 120, wholesale: 80, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
+      { id: 31, nameSi: 'කංකුන්', nameSub: 'Water Spinach / Kankun', category: 'greens', retail: 60, wholesale: 40, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' }
     ];
 
-    // Card States (quantity & pricing type per item)
     let cardState = {};
     let currentCategory = 'all';
 
@@ -444,7 +421,7 @@
 
     function renderProducts() {
       const grid = document.getElementById('productsGrid');
-      const searchVal = document.getElementById('searchInput').value.toLowerCase();
+      const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
       grid.innerHTML = '';
 
       const filtered = products.filter(p => {
@@ -455,7 +432,7 @@
       });
 
       if (filtered.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 20px;">ප්‍රතිඵල නැත (பொருட்கள் எதுவும் கிடைக்கவில்லை)</p>';
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 20px;">ප්‍රතිඵල නැත (No green vegetables found)</p>';
         return;
       }
 
@@ -470,7 +447,7 @@
         card.innerHTML = `
           <div class="badge-container">
             <div class="today-stock-badge">
-              <span class="live-dot"></span> අලුත් (Fresh)
+              <span class="live-dot"></span> Fresh Green
             </div>
             <div class="save-badge">Save Rs. ${saveAmt}/kg</div>
           </div>
@@ -478,19 +455,17 @@
           <img src="${p.img}" alt="${p.nameSi}" class="product-img">
 
           <div class="product-details">
-            <div class="header-row">
-              <div>
-                <h3 class="title-si">${p.nameSi}</h3>
-                <p class="title-sub">${p.nameSub}</p>
-              </div>
+            <div>
+              <h3 class="title-si">${p.nameSi}</h3>
+              <p class="title-sub">${p.nameSub}</p>
             </div>
 
             <div class="pricing-toggle">
               <button class="toggle-btn ${st.type === 'retail' ? 'active' : ''}" onclick="selectType(${p.id}, 'retail')">
-                Retail (Rs. ${p.retail})
+                Retail (${p.retail})
               </button>
               <button class="toggle-btn ${st.type === 'wholesale' ? 'active' : ''}" onclick="selectType(${p.id}, 'wholesale')">
-                Wholesale (Rs. ${p.wholesale})
+                Wholesale (${p.wholesale})
               </button>
             </div>
 
@@ -503,19 +478,14 @@
               </div>
 
               <div class="total-price">
-                <span>එකතුව (Total):</span>
+                <span>Total:</span>
                 <strong>Rs. ${total.toLocaleString()}</strong>
               </div>
             </div>
 
-            <div class="btn-group">
-              <button class="add-btn" onclick="addToOrder(${p.id})">
-                <span class="plus-badge">+</span> Add to Order
-              </button>
-              <button class="whatsapp-btn" onclick="sendProductToWhatsApp(${p.id})">
-                <span>💬</span> WhatsApp
-              </button>
-            </div>
+            <button class="add-btn" onclick="addToOrder(${p.id})">
+              + Add 🛒
+            </button>
           </div>
         `;
         grid.appendChild(card);
@@ -564,19 +534,9 @@
       const p = products.find(item => item.id === id);
       const st = cardState[id];
       const textarea = document.getElementById('orderItems');
-      const textToAppend = `${p.nameSi} (${p.nameSub.split('|')[0].trim()}) - ${st.qty} Kg (${st.type})\n`;
+      const textToAppend = `${p.nameSi} (${p.nameSub}) - ${st.qty} Kg (${st.type})\n`;
       textarea.value += textToAppend;
       alert(`Added: ${p.nameSi} (${st.qty} Kg)`);
-    }
-
-    function sendProductToWhatsApp(id) {
-      const p = products.find(item => item.id === id);
-      const st = cardState[id];
-      const unitPrice = st.type === 'wholesale' ? p.wholesale : p.retail;
-      const total = st.qty * unitPrice;
-
-      const msg = `Hello! I would like to order:\n\n*Product:* ${p.nameSi} (${p.nameSub})\n*Type:* ${st.type.toUpperCase()}\n*Quantity:* ${st.qty} Kg\n*Total:* Rs. ${total}`;
-      window.open(`https://wa.me/${primaryPhone}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     function sendFormToWhatsApp(e) {
@@ -585,11 +545,10 @@
       const address = document.getElementById('custAddress').value;
       const items = document.getElementById('orderItems').value;
 
-      const msg = `*New Order Details*\n\n*Name:* ${name}\n*Address:* ${address}\n\n*Items Ordered:*\n${items}`;
+      const msg = `*New Green Vegetables Order*\n\n*Name:* ${name}\n*Address:* ${address}\n\n*Items Ordered:*\n${items}`;
       window.open(`https://wa.me/${primaryPhone}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    // Initialize
     initStates();
     renderProducts();
   </script>
