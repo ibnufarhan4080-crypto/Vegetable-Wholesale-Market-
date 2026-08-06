@@ -7,135 +7,128 @@
   <style>
     * { box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f1f5f9;
       margin: 0;
       padding: 0;
-      color: #1e293b;
+      color: #0f172a;
     }
 
-    /* Main Header - Modern Dark Emerald Slate Theme */
+    /* Modern Dark Theme Header */
     .main-header {
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #065f46 100%);
-      color: white;
+      background: #0f172a;
+      color: #ffffff;
       text-align: center;
-      padding: 25px 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      padding: 24px 16px;
+      border-bottom: 4px solid #10b981;
     }
     .main-header h1 { 
       margin: 0; 
-      font-size: 22px; 
+      font-size: 21px; 
       font-weight: 800; 
-      letter-spacing: 0.5px;
       color: #ffffff;
     }
     .main-header p.sub-title { 
       margin: 6px 0 10px 0; 
       font-size: 13px; 
-      color: #cbd5e1; 
+      color: #94a3b8; 
       font-weight: 500;
     }
     .main-header p.address { 
       margin: 0 0 14px 0; 
       font-size: 12px; 
-      color: #94a3b8; 
+      color: #cbd5e1; 
     }
 
-    /* Quick Contact Buttons - Glowing Action Style */
+    /* Contact Buttons */
     .quick-contact {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
     .call-btn, .chat-btn {
       text-decoration: none;
-      padding: 8px 18px;
-      border-radius: 25px;
-      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
       font-weight: 700;
       color: white;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
+      gap: 5px;
     }
-    .call-btn { background: linear-gradient(135deg, #0284c7, #0369a1); }
-    .chat-btn { background: linear-gradient(135deg, #16a34a, #15803d); }
-    .call-btn:active, .chat-btn:active { transform: scale(0.96); }
+    .call-btn { background-color: #0284c7; }
+    .chat-btn { background-color: #16a34a; }
 
     /* Layout Container */
     .container {
-      max-width: 1100px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 12px;
     }
 
-    /* Search & Filter Section */
+    /* Filter & Search */
     .filter-section {
       background: #ffffff;
       padding: 12px;
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-      margin-bottom: 18px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
       border: 1px solid #e2e8f0;
     }
     .search-box input {
       width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid #cbd5e1;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
       border-radius: 8px;
       font-size: 13px;
       outline: none;
       margin-bottom: 10px;
-      transition: border-color 0.2s;
-    }
-    .search-box input:focus {
-      border-color: #0284c7;
     }
 
-    /* Balanced 3 Category Layout */
+    /* Balanced 3 Categories Grid */
     .category-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    @media (max-width: 600px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
     .filter-btn {
-      padding: 8px 10px;
+      padding: 8px 6px;
       border: 1px solid #cbd5e1;
       background: #f8fafc;
       border-radius: 8px;
       font-size: 11px;
       cursor: pointer;
       font-weight: 700;
-      color: #475569;
+      color: #334155;
       text-align: center;
       line-height: 1.3;
-      transition: all 0.2s;
     }
     .filter-btn.active {
       background: #0f172a;
       color: #ffffff;
       border-color: #0f172a;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25);
     }
 
-    /* Product Grid Layout */
+    /* Products Grid */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 12px;
-      justify-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 24px;
     }
 
-    /* Ultra Modern Card Styles */
+    /* Card Design */
     .product-card {
-      width: 100%;
       background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
       overflow: hidden;
       position: relative;
       display: flex;
@@ -155,14 +148,13 @@
       background: rgba(255, 255, 255, 0.95);
       color: #0f172a;
       padding: 2px 6px;
-      border-radius: 6px;
+      border-radius: 4px;
       font-size: 9px;
-      font-weight: 800;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 4px;
       border: 1px solid #cbd5e1;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
     .live-dot {
       width: 6px;
@@ -173,18 +165,19 @@
     .save-badge {
       background: #0284c7;
       color: #ffffff;
-      padding: 2px 5px;
+      padding: 2px 4px;
       border-radius: 4px;
-      font-size: 8.5px;
+      font-size: 8px;
       font-weight: 700;
     }
     .product-img {
       width: 100%;
-      height: 105px;
+      height: 110px;
       object-fit: cover;
+      background-color: #e2e8f0;
     }
     .product-details {
-      padding: 10px 8px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -194,62 +187,60 @@
       margin: 0;
       font-size: 14px;
       color: #0f172a;
-      font-weight: 800;
+      font-weight: 700;
       line-height: 1.2;
     }
     .title-sub {
       margin: 2px 0 6px 0;
       color: #64748b;
       font-size: 10px;
-      font-weight: 600;
     }
     .pricing-toggle {
       display: flex;
-      gap: 3px;
-      margin-bottom: 8px;
+      gap: 2px;
+      margin-bottom: 6px;
       background: #f1f5f9;
       padding: 2px;
-      border-radius: 6px;
+      border-radius: 4px;
     }
     .toggle-btn {
       flex: 1;
-      padding: 4px 2px;
+      padding: 3px 2px;
       border: none;
       background: transparent;
-      border-radius: 4px;
+      border-radius: 3px;
       cursor: pointer;
       font-size: 9px;
       color: #475569;
-      font-weight: 600;
     }
     .toggle-btn.active {
       background: #ffffff;
       color: #0f172a;
-      font-weight: 800;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      font-weight: 700;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
     }
     .controls-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 4px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .qty-control {
       display: flex;
       align-items: center;
       border: 1px solid #cbd5e1;
-      border-radius: 6px;
+      border-radius: 4px;
       overflow: hidden;
-      width: 75px;
-      height: 26px;
+      width: 70px;
+      height: 24px;
     }
     .qty-btn {
-      width: 22px;
+      width: 20px;
       height: 100%;
       border: none;
       background: #f1f5f9;
-      font-size: 12px;
+      font-size: 11px;
       color: #0f172a;
       cursor: pointer;
       padding: 0;
@@ -259,17 +250,15 @@
       width: 100%;
       text-align: center;
       border: none;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       outline: none;
       padding: 0;
-      color: #0f172a;
     }
     .unit {
-      padding-right: 4px;
+      padding-right: 3px;
       color: #64748b;
       font-size: 9px;
-      font-weight: 600;
     }
     .total-price {
       text-align: right;
@@ -280,43 +269,35 @@
       color: #64748b;
     }
     .total-price strong {
-      font-size: 12px;
+      font-size: 11px;
       color: #0f172a;
     }
     .add-btn {
       width: 100%;
       border: none;
-      padding: 7px;
-      border-radius: 6px;
+      padding: 6px;
+      border-radius: 4px;
       font-weight: 700;
       font-size: 11px;
       cursor: pointer;
       background: #0f172a;
       color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      transition: background 0.2s;
-    }
-    .add-btn:active {
-      background: #1e293b;
     }
 
-    /* Order & Form Section */
+    /* Contact Form Section */
     .contact-section {
       background: #ffffff;
       padding: 16px;
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
       border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .contact-section h2 { margin-top: 0; font-size: 15px; color: #0f172a; }
-    .contact-card p { font-size: 11px; color: #64748b; margin-bottom: 12px; }
+    .contact-card p { font-size: 11px; color: #64748b; margin-bottom: 10px; }
     #whatsappForm input, #whatsappForm textarea {
       width: 100%;
-      padding: 9px;
-      margin-bottom: 10px;
+      padding: 8px;
+      margin-bottom: 8px;
       border: 1px solid #cbd5e1;
       border-radius: 6px;
       font-size: 12px;
@@ -324,18 +305,17 @@
     }
     #whatsappForm button {
       width: 100%;
-      padding: 11px;
+      padding: 10px;
       border: none;
       border-radius: 6px;
-      background: linear-gradient(135deg, #16a34a, #15803d);
+      background: #16a34a;
       color: white;
       font-weight: bold;
       font-size: 13px;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
     }
-    .map-container { margin-top: 18px; }
-    .map-container h3 { font-size: 13px; color: #0f172a; margin-bottom: 8px; }
+    .map-container { margin-top: 16px; }
+    .map-container h3 { font-size: 12px; color: #0f172a; margin-bottom: 6px; }
     .map-container iframe { border-radius: 8px; }
   </style>
 </head>
@@ -343,39 +323,36 @@
 
   <!-- Header Section -->
   <header class="main-header">
-    <div class="header-overlay">
-      <h1>නුවරඑළිය අලුත් එළවළු තොග වෙළෙඳසල</h1>
-      <p class="sub-title">Nuwara Eliya Fresh Vegetables Market</p>
-      <p class="address">📍 New Street, Weligama, Sri Lanka.</p>
-      
-      <div class="quick-contact">
-        <a href="tel:0759073223" class="call-btn">📞 அழைப்பு: 0759073223</a>
-        <a href="https://wa.me/94769073232" target="_blank" class="chat-btn">💬 வாட்ஸ்அப்: 0769073232</a>
-      </div>
+    <h1>නුවරඑළිය අලුත් එළවළු තොග වෙළෙඳසල</h1>
+    <p class="sub-title">Nuwara Eliya Fresh Vegetables Market</p>
+    <p class="address">📍 New Street, Weligama, Sri Lanka.</p>
+    
+    <div class="quick-contact">
+      <a href="tel:0759073223" class="call-btn">📞 அழைப்பு: 0759073223</a>
+      <a href="https://wa.me/94769073232" target="_blank" class="chat-btn">💬 வாட்ஸ்அப்: 0769073232</a>
     </div>
   </header>
 
   <main class="container">
 
-    <!-- Search & Filter Section -->
+    <!-- Search & 3 Category Filter Section -->
     <section class="filter-section">
       <div class="search-box">
         <input type="text" id="searchInput" oninput="handleSearch()" placeholder="🔍 එළවළු සොයන්න... / Search Fresh Vegetables...">
       </div>
       
-      <!-- Balanced 3 Categories -->
       <div class="category-grid">
-        <button class="filter-btn active" onclick="filterCategory('all', this)">සියල්ල / All</button>
+        <button class="filter-btn active" onclick="filterCategory('all', this)">සියල්ල<br>(All)</button>
         <button class="filter-btn" onclick="filterCategory('upcountry', this)">උඩරට එළවළු<br>(Upcountry)</button>
         <button class="filter-btn" onclick="filterCategory('lowcountry', this)">පහතරට එළවළු<br>(Lowcountry)</button>
         <button class="filter-btn" onclick="filterCategory('greens', this)">පලා වර්ග<br>(Leafy Greens)</button>
       </div>
     </section>
 
-    <!-- Product Cards Grid -->
+    <!-- Product Grid -->
     <section class="products-grid" id="productsGrid"></section>
 
-    <!-- Order & Contact Section -->
+    <!-- WhatsApp Order Form -->
     <section class="contact-section">
       <h2>📲 WhatsApp හරහා ඇණවුම් කරන්න (WhatsApp Order)</h2>
       <div class="contact-card">
@@ -404,9 +381,8 @@
   <script>
     const primaryPhone = "94769073232";
 
-    // BALANCED FRESH VEGETABLES (SINHALA EMPHASIS + ENGLISH)
     const products = [
-      // --- Category 1: Upcountry Vegetables (උඩරට එළවළු) ---
+      // Upcountry Vegetables
       { id: 1, nameSi: 'කැරට්', nameSub: 'Carrot', category: 'upcountry', retail: 240, wholesale: 200, img: 'https://images.unsplash.com/photo-1598170845058-12ef4a457511?q=80&w=600' },
       { id: 2, nameSi: 'බීට්රූට්', nameSub: 'Beetroot', category: 'upcountry', retail: 220, wholesale: 180, img: 'https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?q=80&w=600' },
       { id: 3, nameSi: 'බෝංචි', nameSub: 'Green Beans', category: 'upcountry', retail: 260, wholesale: 220, img: 'https://images.unsplash.com/photo-1567375698348-5d9d5ae99de0?q=80&w=600' },
@@ -414,15 +390,15 @@
       { id: 5, nameSi: 'මාළුමිරිස්', nameSub: 'Capsicum', category: 'upcountry', retail: 380, wholesale: 320, img: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?q=80&w=600' },
       { id: 6, nameSi: 'ලීක්ස්', nameSub: 'Leeks', category: 'upcountry', retail: 240, wholesale: 200, img: 'https://images.unsplash.com/photo-1628773822503-930a8581e285?q=80&w=600' },
 
-      // --- Category 2: Lowcountry Vegetables (පහතරට එළවළු) ---
-      { id: 7, nameSi: 'වම්බටු', nameSub: 'Brinjal / Eggplant', category: 'lowcountry', retail: 200, wholesale: 160, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
+      // Lowcountry Vegetables
+      { id: 7, nameSi: 'වම්බටු', nameSub: 'Brinjal', category: 'lowcountry', retail: 200, wholesale: 160, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
       { id: 8, nameSi: 'තක්කාලි', nameSub: 'Tomato', category: 'lowcountry', retail: 220, wholesale: 180, img: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=600' },
       { id: 9, nameSi: 'වැටකොළු', nameSub: 'Ridge Gourd', category: 'lowcountry', retail: 220, wholesale: 170, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
       { id: 10, nameSi: 'බණ්ඩක්කා', nameSub: "Ladies Fingers", category: 'lowcountry', retail: 180, wholesale: 140, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
       { id: 11, nameSi: 'පතෝල', nameSub: 'Snake Gourd', category: 'lowcountry', retail: 200, wholesale: 150, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
       { id: 12, nameSi: 'කරවිල', nameSub: 'Bitter Gourd', category: 'lowcountry', retail: 280, wholesale: 220, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600' },
 
-      // --- Category 3: Leafy Greens (පලා වර්ග) ---
+      // Leafy Greens
       { id: 13, nameSi: 'නිවිති', nameSub: 'Spinach', category: 'greens', retail: 120, wholesale: 80, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
       { id: 14, nameSi: 'ගොටුකොළ', nameSub: 'Gotukola', category: 'greens', retail: 60, wholesale: 40, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
       { id: 15, nameSi: 'මුකුණුවැන්න', nameSub: 'Mukunuwenna', category: 'greens', retail: 60, wholesale: 40, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
@@ -435,9 +411,7 @@
     let currentCategory = 'all';
 
     function initStates() {
-      products.forEach(p => {
-        cardState[p.id] = { type: 'retail', qty: 1 };
-      });
+      products.forEach(p => { cardState[p.id] = { type: 'retail', qty: 1 }; });
     }
 
     function renderProducts() {
@@ -447,8 +421,7 @@
 
       const filtered = products.filter(p => {
         const matchesCategory = (currentCategory === 'all' || p.category === currentCategory);
-        const matchesSearch = p.nameSi.toLowerCase().includes(searchVal) || 
-                              p.nameSub.toLowerCase().includes(searchVal);
+        const matchesSearch = p.nameSi.toLowerCase().includes(searchVal) || p.nameSub.toLowerCase().includes(searchVal);
         return matchesCategory && matchesSearch;
       });
 
@@ -467,29 +440,19 @@
         card.className = 'product-card';
         card.innerHTML = `
           <div class="badge-container">
-            <div class="today-stock-badge">
-              <span class="live-dot"></span> Fresh Vegetable
-            </div>
+            <div class="today-stock-badge"><span class="live-dot"></span> Fresh Vegetable</div>
             <div class="save-badge">වාසිය Rs. ${saveAmt}/kg</div>
           </div>
-
           <img src="${p.img}" alt="${p.nameSi}" class="product-img">
-
           <div class="product-details">
             <div>
               <h3 class="title-si">${p.nameSi}</h3>
               <p class="title-sub">${p.nameSub}</p>
             </div>
-
             <div class="pricing-toggle">
-              <button class="toggle-btn ${st.type === 'retail' ? 'active' : ''}" onclick="selectType(${p.id}, 'retail')">
-                සිල්ලර (${p.retail})
-              </button>
-              <button class="toggle-btn ${st.type === 'wholesale' ? 'active' : ''}" onclick="selectType(${p.id}, 'wholesale')">
-                තොග (${p.wholesale})
-              </button>
+              <button class="toggle-btn ${st.type === 'retail' ? 'active' : ''}" onclick="selectType(${p.id}, 'retail')">සිල්ලර (${p.retail})</button>
+              <button class="toggle-btn ${st.type === 'wholesale' ? 'active' : ''}" onclick="selectType(${p.id}, 'wholesale')">තොග (${p.wholesale})</button>
             </div>
-
             <div class="controls-row">
               <div class="qty-control">
                 <button class="qty-btn" onclick="changeQty(${p.id}, -0.5)">-</button>
@@ -497,16 +460,12 @@
                 <span class="unit">Kg</span>
                 <button class="qty-btn" onclick="changeQty(${p.id}, 0.5)">+</button>
               </div>
-
               <div class="total-price">
                 <span>එකතුව:</span>
                 <strong>Rs. ${total.toLocaleString()}</strong>
               </div>
             </div>
-
-            <button class="add-btn" onclick="addToOrder(${p.id})">
-              + එකතු කරන්න 🛒
-            </button>
+            <button class="add-btn" onclick="addToOrder(${p.id})">+ එකතු කරන්න 🛒</button>
           </div>
         `;
         grid.appendChild(card);
@@ -516,9 +475,7 @@
     function selectType(id, type) {
       if (!cardState[id]) cardState[id] = { type: 'retail', qty: 1 };
       cardState[id].type = type;
-      if (type === 'wholesale' && cardState[id].qty < 5) {
-        cardState[id].qty = 5;
-      }
+      if (type === 'wholesale' && cardState[id].qty < 5) cardState[id].qty = 5;
       renderProducts();
     }
 
@@ -547,16 +504,13 @@
       renderProducts();
     }
 
-    function handleSearch() {
-      renderProducts();
-    }
+    function handleSearch() { renderProducts(); }
 
     function addToOrder(id) {
       const p = products.find(item => item.id === id);
       const st = cardState[id];
       const textarea = document.getElementById('orderItems');
-      const textToAppend = `${p.nameSi} (${p.nameSub}) - ${st.qty} Kg (${st.type})\n`;
-      textarea.value += textToAppend;
+      textarea.value += `${p.nameSi} (${p.nameSub}) - ${st.qty} Kg (${st.type})\n`;
       alert(`එකතු කරන ලදී: ${p.nameSi} (${st.qty} Kg)`);
     }
 
@@ -565,7 +519,6 @@
       const name = document.getElementById('custName').value;
       const address = document.getElementById('custAddress').value;
       const items = document.getElementById('orderItems').value;
-
       const msg = `*New Fresh Vegetables Order*\n\n*Name:* ${name}\n*Address:* ${address}\n\n*Items Ordered:*\n${items}`;
       window.open(`https://wa.me/${primaryPhone}?text=${encodeURIComponent(msg)}`, '_blank');
     }
