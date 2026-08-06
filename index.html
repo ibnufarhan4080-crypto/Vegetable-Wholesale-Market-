@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>අලුත් එළවළු වෙළඳසැල | Fresh Vegetable Market</title>
   <style>
-    /* Global Styles */
     * {
       box-sizing: border-box;
     }
@@ -103,25 +102,6 @@
       background: #2e7d32;
       color: #fff;
       border-color: #2e7d32;
-    }
-
-    /* Cart Section */
-    .cart-section {
-      background: #ffffff;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
-    }
-    .cart-section h2 {
-      margin-top: 0;
-      font-size: 16px;
-      color: #1b5e20;
-    }
-    .empty-cart-text {
-      font-size: 12px;
-      color: #757575;
-      margin: 0;
     }
 
     /* Product Grid Layout */
@@ -322,7 +302,7 @@
       gap: 4px;
     }
 
-    /* Contact & Form Section */
+    /* Order & Form Section */
     .contact-section {
       background: #ffffff;
       padding: 18px;
@@ -377,8 +357,8 @@
   <!-- Header Section -->
   <header class="main-header">
     <div class="header-overlay">
-      <h1>🥦 අලුත් එළවළු වෙළඳසැල 🍅</h1>
-      <p>Fresh & Quality Vegetables Daily | புதிய காய்கறிகள் சந்தை</p>
+      <h1>🥦 නුවරඑළිය එළවළු තොග වෙළෙඳසල 🍅</h1>
+      <p>Nuwara Eliya Vegetable Wholesale Market</p>
       
       <div class="quick-contact">
         <a href="tel:0769073232" class="call-btn">📞 076 907 3232</a>
@@ -394,86 +374,22 @@
     <!-- Search & Filter Section -->
     <section class="filter-section">
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="🔍 සොයන්න... / தேடுக... / Search vegetable...">
+        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="🔍 සොයන්න... / தேடுக... / Search vegetable...">
       </div>
       
       <div class="category-grid">
-        <button class="filter-btn active" onclick="filterCategory('all')">සියල්ල (All)</button>
-        <button class="filter-btn" onclick="filterCategory('upcountry')">උඩරට එළවළු</button>
-        <button class="filter-btn" onclick="filterCategory('lowcountry')">පහතරට එළවළු</button>
-        <button class="filter-btn" onclick="filterCategory('yams')">අල වර්ග</button>
-        <button class="filter-btn" onclick="filterCategory('greens')">පලා වර්ග</button>
-        <button class="filter-btn" onclick="filterCategory('grains')">ධාන්‍ය</button>
-        <button class="filter-btn" onclick="filterCategory('fruits')">පලතුරු</button>
+        <button class="filter-btn active" onclick="filterCategory('all', this)">සියල්ල (All)</button>
+        <button class="filter-btn" onclick="filterCategory('upcountry', this)">උඩරට එළවළු</button>
+        <button class="filter-btn" onclick="filterCategory('lowcountry', this)">පහතරට එළවළු</button>
+        <button class="filter-btn" onclick="filterCategory('yams', this)">අල වර්ග</button>
+        <button class="filter-btn" onclick="filterCategory('greens', this)">පලා වර්ග</button>
+        <button class="filter-btn" onclick="filterCategory('grains', this)">ධාන්‍ය</button>
+        <button class="filter-btn" onclick="filterCategory('fruits', this)">පලතුරු</button>
       </div>
-    </section>
-
-    <!-- Shopping Cart Box -->
-    <section class="cart-section" id="cartSection">
-      <h2>🛒 තෝරාගත් ද්‍රව්‍ය (Selected Items / பொருட்கள்)</h2>
-      <div id="cartList">
-        <p class="empty-cart-text">ඇණවුම් ලැයිස්තුව හිස්ව පවතී (ஆர்டர் பட்டியல் காலியாக உள்ளது)</p>
-      </div>
-      <div id="cartTotal" class="cart-total"></div>
     </section>
 
     <!-- Product Cards Grid -->
-    <section class="products-grid" id="productsGrid">
-
-      <!-- Sample Compact Card (Beans) -->
-      <div class="product-card">
-        <div class="badge-container">
-          <div class="today-stock-badge">
-            <span class="live-dot"></span> අලුත් (Fresh)
-          </div>
-          <div class="save-badge">Save Rs. 40/kg</div>
-        </div>
-
-        <img src="https://images.unsplash.com/photo-1567375698348-5d9d5ae99de0?q=80&w=600&auto=format&fit=crop" alt="Beans" class="product-img">
-
-        <div class="product-details">
-          <div class="header-row">
-            <div>
-              <h3 class="title-si">බෝංචි</h3>
-              <p class="title-sub">பீன்ஸ் | Beans</p>
-            </div>
-          </div>
-
-          <div class="pricing-toggle">
-            <button class="toggle-btn active" id="retailBtn" onclick="selectType('retail')">
-              Retail (Rs. 260)
-            </button>
-            <button class="toggle-btn" id="wholesaleBtn" onclick="selectType('wholesale')">
-              Wholesale (Rs. 220)
-            </button>
-          </div>
-
-          <div class="controls-row">
-            <div class="qty-control">
-              <button class="qty-btn" onclick="changeQty(-0.5)">-</button>
-              <input type="number" id="qtyInput" value="1" min="0.5" step="0.5" onchange="updateTotal()">
-              <span class="unit">Kg</span>
-              <button class="qty-btn" onclick="changeQty(0.5)">+</button>
-            </div>
-
-            <div class="total-price">
-              <span>එකතුව (Total):</span>
-              <strong id="totalPrice">Rs. 260</strong>
-            </div>
-          </div>
-
-          <div class="btn-group">
-            <button class="add-btn">
-              <span class="plus-badge">+</span> Add to Order
-            </button>
-            <button class="whatsapp-btn" onclick="sendToWhatsApp()">
-              <span>💬</span> WhatsApp
-            </button>
-          </div>
-        </div>
-      </div>
-
-    </section>
+    <section class="products-grid" id="productsGrid"></section>
 
     <!-- Order & Contact Section -->
     <section class="contact-section">
@@ -502,81 +418,180 @@
   </main>
 
   <script>
-    const primaryPhone = "94769073232"; 
+    const primaryPhone = "94769073232";
 
-    let currentType = 'retail';
-    const prices = {
-      retail: 260,
-      wholesale: 220
-    };
+    // Products Data
+    const products = [
+      { id: 1, nameSi: 'බෝංචි', nameSub: 'பீன்ஸ் | Beans', category: 'upcountry', retail: 260, wholesale: 220, img: 'https://images.unsplash.com/photo-1567375698348-5d9d5ae99de0?q=80&w=600' },
+      { id: 2, nameSi: 'කැරට්', nameSub: 'கேரட் | Carrot', category: 'upcountry', retail: 220, wholesale: 180, img: 'https://images.unsplash.com/photo-1598170845058-12ef4a457939?q=80&w=600' },
+      { id: 3, nameSi: 'බීට්රූට්', nameSub: 'பீட்ரூட் | Beetroot', category: 'upcountry', retail: 230, wholesale: 190, img: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?q=80&w=600' },
+      { id: 4, nameSi: 'ලීක්ස්', nameSub: 'லீக்ஸ் | Leeks', category: 'upcountry', retail: 240, wholesale: 200, img: 'https://images.unsplash.com/photo-1628773822503-930a8581e285?q=80&w=600' },
+      { id: 5, nameSi: 'අල', nameSub: 'உருளை | Potato', category: 'yams', retail: 320, wholesale: 280, img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=600' },
+      { id: 6, nameSi: 'ගෝවා', nameSub: 'கோவா | Cabbage', category: 'upcountry', retail: 180, wholesale: 150, img: 'https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?q=80&w=600' },
+      { id: 7, nameSi: 'ගොටුකොළ', nameSub: 'வல்லாரை | Gotukola', category: 'greens', retail: 60, wholesale: 45, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=600' },
+      { id: 8, nameSi: 'කෙසෙල්', nameSub: 'வாழைப்பழம் | Banana', category: 'fruits', retail: 220, wholesale: 180, img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?q=80&w=600' }
+    ];
 
-    function selectType(type) {
-      currentType = type;
-      document.getElementById('retailBtn').classList.toggle('active', type === 'retail');
-      document.getElementById('wholesaleBtn').classList.toggle('active', type === 'wholesale');
-      
-      if (type === 'wholesale' && parseFloat(document.getElementById('qtyInput').value) < 5) {
-        document.getElementById('qtyInput').value = 5;
+    // Card States (quantity & pricing type per item)
+    let cardState = {};
+    let currentCategory = 'all';
+
+    function initStates() {
+      products.forEach(p => {
+        cardState[p.id] = { type: 'retail', qty: 1 };
+      });
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('productsGrid');
+      const searchVal = document.getElementById('searchInput').value.toLowerCase();
+      grid.innerHTML = '';
+
+      const filtered = products.filter(p => {
+        const matchesCategory = (currentCategory === 'all' || p.category === currentCategory);
+        const matchesSearch = p.nameSi.toLowerCase().includes(searchVal) || 
+                              p.nameSub.toLowerCase().includes(searchVal);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 20px;">ප්‍රතිඵල නැත (பொருட்கள் எதுவும் கிடைக்கவில்லை)</p>';
+        return;
       }
-      
-      updateTotal();
+
+      filtered.forEach(p => {
+        const st = cardState[p.id] || { type: 'retail', qty: 1 };
+        const unitPrice = st.type === 'wholesale' ? p.wholesale : p.retail;
+        const total = st.qty * unitPrice;
+        const saveAmt = p.retail - p.wholesale;
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div class="badge-container">
+            <div class="today-stock-badge">
+              <span class="live-dot"></span> අලුත් (Fresh)
+            </div>
+            <div class="save-badge">Save Rs. ${saveAmt}/kg</div>
+          </div>
+
+          <img src="${p.img}" alt="${p.nameSi}" class="product-img">
+
+          <div class="product-details">
+            <div class="header-row">
+              <div>
+                <h3 class="title-si">${p.nameSi}</h3>
+                <p class="title-sub">${p.nameSub}</p>
+              </div>
+            </div>
+
+            <div class="pricing-toggle">
+              <button class="toggle-btn ${st.type === 'retail' ? 'active' : ''}" onclick="selectType(${p.id}, 'retail')">
+                Retail (Rs. ${p.retail})
+              </button>
+              <button class="toggle-btn ${st.type === 'wholesale' ? 'active' : ''}" onclick="selectType(${p.id}, 'wholesale')">
+                Wholesale (Rs. ${p.wholesale})
+              </button>
+            </div>
+
+            <div class="controls-row">
+              <div class="qty-control">
+                <button class="qty-btn" onclick="changeQty(${p.id}, -0.5)">-</button>
+                <input type="number" value="${st.qty}" min="0.5" step="0.5" onchange="manualQty(${p.id}, this.value)">
+                <span class="unit">Kg</span>
+                <button class="qty-btn" onclick="changeQty(${p.id}, 0.5)">+</button>
+              </div>
+
+              <div class="total-price">
+                <span>එකතුව (Total):</span>
+                <strong>Rs. ${total.toLocaleString()}</strong>
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button class="add-btn" onclick="addToOrder(${p.id})">
+                <span class="plus-badge">+</span> Add to Order
+              </button>
+              <button class="whatsapp-btn" onclick="sendProductToWhatsApp(${p.id})">
+                <span>💬</span> WhatsApp
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
     }
 
-    function changeQty(delta) {
-      let input = document.getElementById('qtyInput');
-      let newVal = parseFloat(input.value) + delta;
-      let minVal = (currentType === 'wholesale') ? 5 : 0.5;
-      
-      if (newVal >= minVal) {
-        input.value = newVal;
-        updateTotal();
+    function selectType(id, type) {
+      if (!cardState[id]) cardState[id] = { type: 'retail', qty: 1 };
+      cardState[id].type = type;
+      if (type === 'wholesale' && cardState[id].qty < 5) {
+        cardState[id].qty = 5;
+      }
+      renderProducts();
+    }
+
+    function changeQty(id, delta) {
+      if (!cardState[id]) cardState[id] = { type: 'retail', qty: 1 };
+      let minVal = cardState[id].type === 'wholesale' ? 5 : 0.5;
+      let newQty = cardState[id].qty + delta;
+      if (newQty >= minVal) {
+        cardState[id].qty = newQty;
+        renderProducts();
       }
     }
 
-    function updateTotal() {
-      let qty = parseFloat(document.getElementById('qtyInput').value);
-      if (isNaN(qty) || qty <= 0) qty = 1;
-      
-      let unitPrice = prices[currentType];
-      let total = qty * unitPrice;
-      
-      document.getElementById('totalPrice').innerText = `Rs. ${total.toLocaleString()}`;
+    function manualQty(id, val) {
+      let q = parseFloat(val);
+      if (isNaN(q) || q <= 0) q = 1;
+      let minVal = cardState[id].type === 'wholesale' ? 5 : 0.5;
+      cardState[id].qty = Math.max(q, minVal);
+      renderProducts();
     }
 
-    function sendToWhatsApp() {
-      let qty = document.getElementById('qtyInput').value;
-      let unitPrice = prices[currentType];
-      let total = qty * unitPrice;
-      let typeText = currentType === 'wholesale' ? 'Wholesale (තොග)' : 'Retail (සිල්ලර)';
-
-      let text = `*NEW VEGETABLE ORDER*%0A%0A` +
-                 `🛒 *பொருள் / ද්‍රව්‍ය:* බෝංචි / பீன்ஸ் (Beans)%0A` +
-                 `📦 *வகை / වර්ගය:* ${typeText}%0A` +
-                 `⚖️ *அளவு / ප්‍රමාණය:* ${qty} Kg%0A` +
-                 `💰 *மொத்தத் தொகை / එකතුව:* Rs. ${total}`;
-
-      let url = `https://wa.me/${primaryPhone}?text=${text}`;
-      window.open(url, '_blank');
+    function filterCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts();
     }
 
-    function sendFormToWhatsApp(event) {
-      event.preventDefault();
-      let name = document.getElementById('custName').value;
-      let address = document.getElementById('custAddress').value;
-      let items = document.getElementById('orderItems').value;
-
-      let text = `*NEW CUSTOMER ORDER*%0A%0A` +
-                 `👤 *Name:* ${name}%0A` +
-                 `📍 *Address:* ${address}%0A` +
-                 `📝 *Order Items:*%0A${items}`;
-
-      let url = `https://wa.me/${primaryPhone}?text=${encodeURIComponent(text)}`;
-      window.open(url, '_blank');
+    function handleSearch() {
+      renderProducts();
     }
 
-    function filterCategory(category) {
-      // Category filter implementation placeholder
+    function addToOrder(id) {
+      const p = products.find(item => item.id === id);
+      const st = cardState[id];
+      const textarea = document.getElementById('orderItems');
+      const textToAppend = `${p.nameSi} (${p.nameSub.split('|')[0].trim()}) - ${st.qty} Kg (${st.type})\n`;
+      textarea.value += textToAppend;
+      alert(`Added: ${p.nameSi} (${st.qty} Kg)`);
     }
+
+    function sendProductToWhatsApp(id) {
+      const p = products.find(item => item.id === id);
+      const st = cardState[id];
+      const unitPrice = st.type === 'wholesale' ? p.wholesale : p.retail;
+      const total = st.qty * unitPrice;
+
+      const msg = `Hello! I would like to order:\n\n*Product:* ${p.nameSi} (${p.nameSub})\n*Type:* ${st.type.toUpperCase()}\n*Quantity:* ${st.qty} Kg\n*Total:* Rs. ${total}`;
+      window.open(`https://wa.me/${primaryPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function sendFormToWhatsApp(e) {
+      e.preventDefault();
+      const name = document.getElementById('custName').value;
+      const address = document.getElementById('custAddress').value;
+      const items = document.getElementById('orderItems').value;
+
+      const msg = `*New Order Details*\n\n*Name:* ${name}\n*Address:* ${address}\n\n*Items Ordered:*\n${items}`;
+      window.open(`https://wa.me/${primaryPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // Initialize
+    initStates();
+    renderProducts();
   </script>
 </body>
 </html>
