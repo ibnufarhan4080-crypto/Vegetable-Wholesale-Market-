@@ -250,6 +250,16 @@
       border: 1px solid #bbf7d0;
       text-align: center;
     }
+    .delete-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 3px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 9px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -301,7 +311,6 @@
         <h4 style="color: #854d0e; margin-bottom: 10px;">➕ புதிய பொருள் சேர்க்க (Add New Product)</h4>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
-          <!-- 1. Category Choice -->
           <select id="newCategory" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
             <option value="upcountry">උඩරට (Upcountry)</option>
             <option value="lowcountry">පහතරට (Lowcountry)</option>
@@ -311,14 +320,9 @@
             <option value="fruits">පලතුරු (Fruits)</option>
           </select>
 
-          <!-- 2. Product Name Tamil/Sinhala & English -->
           <input type="text" id="newNameSi" placeholder="பெயர் (Sinhala/Tamil)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
           <input type="text" id="newNameSub" placeholder="Name (English)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
-
-          <!-- 3. Product Image Link -->
           <input type="text" id="newImg" placeholder="Image URL Link" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
-
-          <!-- 4. Retail & Wholesale Price -->
           <input type="number" id="newRetail" placeholder="Retail Price (Rs)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
           <input type="number" id="newWholesale" placeholder="Wholesale Price (Rs)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
         </div>
@@ -337,6 +341,7 @@
               <th>Retail</th>
               <th>Wholesale</th>
               <th>Stock</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody id="adminTableBody"></tbody>
@@ -440,7 +445,6 @@
       { id: 86, nameSi: 'අඹ', nameSub: 'Mango (Regular)', category: 'fruits', retail: 250, wholesale: 200, inStock: true, img: 'https://i.postimg.cc/wj5D2GzZ/00-118.jpg' }
     ];
 
-    // Load Data from LocalStorage if available, otherwise use default allProducts
     let storedProducts = localStorage.getItem('my_custom_products');
     let products = storedProducts ? JSON.parse(storedProducts) : [...allProducts];
 
@@ -586,6 +590,7 @@
           <td><input type="number" id="adm-ret-${p.id}" value="${p.retail}" style="width:50px;"></td>
           <td><input type="number" id="adm-who-${p.id}" value="${p.wholesale}" style="width:50px;"></td>
           <td><input type="checkbox" id="adm-stk-${p.id}" ${p.inStock ? 'checked' : ''}></td>
+          <td><button class="delete-btn" onclick="deleteProduct(${p.id})">🗑️ Delete</button></td>
         `;
         tbody.appendChild(tr);
       });
@@ -631,6 +636,18 @@
       renderProducts();
       renderAdminTable();
       alert("புதிய பொருள் வெற்றிகரமாக சேர்க்கப்பட்டது!");
+    }
+
+    /* Product Delete Function */
+    function deleteProduct(id) {
+      if (confirm("இந்த பொருளை நிச்சயமாக நீக்க வேண்டுமா?")) {
+        products = products.filter(p => p.id !== id);
+        delete cardState[id];
+        localStorage.setItem('my_custom_products', JSON.stringify(products));
+        renderProducts();
+        renderAdminTable();
+        alert("பொருள் நீக்கப்பட்டது!");
+      }
     }
 
     function saveAdminChanges() {
