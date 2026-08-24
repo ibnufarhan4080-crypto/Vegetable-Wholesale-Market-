@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>නුවරඑළිය අලුත් එළවළු තොග වෙළෙඳසල | Nuwara Eliya Fresh Vegetables Market</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Firebase SDK Libraries -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  
+  <!-- jsPDF Library for PDF Receipt Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -20,6 +28,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       border-bottom: 4px solid #86efac;
       cursor: pointer;
+      position: relative;
     }
 
     .main-banner-img {
@@ -46,7 +55,7 @@
       border: 1px solid #86efac;
       border-radius: 8px;
       font-size: 13px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       outline: none;
       background: #f0fdf4;
     }
@@ -93,6 +102,11 @@
       flex-direction: column;
       position: relative;
       box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+
+    .product-card.ordered-item {
+      background-color: #e6f4ea !important;
+      border: 2px solid #16a34a !important;
     }
 
     .product-card.out-of-stock { opacity: 0.6; filter: grayscale(40%); }
@@ -241,6 +255,7 @@
       gap: 6px;
     }
 
+    /* 🔐 ADMIN PANEL */
     .admin-panel {
       display: none;
       background: #ffffff;
@@ -250,6 +265,23 @@
       margin-top: 20px;
       margin-bottom: 20px;
     }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .analytics-card {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .analytics-card h5 { font-size: 11px; color: #166534; margin-bottom: 4px; font-weight: 800; }
+    .analytics-card div { font-size: 20px; font-weight: bold; color: #14532d; }
+
     .admin-table {
       width: 100%;
       border-collapse: collapse;
@@ -257,7 +289,7 @@
       font-size: 10px;
     }
     .admin-table th, .admin-table td {
-      padding: 5px;
+      padding: 6px;
       border: 1px solid #bbf7d0;
       text-align: center;
     }
@@ -271,21 +303,39 @@
       font-size: 9px;
       font-weight: bold;
     }
+
+    .site-footer {
+      text-align: center;
+      padding: 16px;
+      background-color: #0b3c1d;
+      color: #86efac;
+      font-size: 11px;
+      font-weight: 600;
+      border-top: 2px solid #86efac;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
 
   <header class="banner-header" id="bannerHeader">
-    <img src="https://i.postimg.cc/QdKMm9rn/20260808-090650.jpg" alt="Header" class="main-banner-img">
+    <img src="https://i.postimg.cc/sgwfKVyL/20260824-084658.jpg" alt="Header" class="main-banner-img">
   </header>
+
+  <!-- Today's Special Marquee Banner -->
+  <div style="background: #fef08a; color: #854d0e; padding: 6px 10px; font-size: 11px; font-weight: bold; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #fde047;">
+    <marquee scrollamount="4" id="marqueeTextDisplay">
+      📢 අද විශේෂ මිල ගණන්: නුවරඑළිය කැරට් විශේෂ වට්ටමක් යටතේ! | අලුත් බෝංචි සහ තක්කාලි අඩුම මිලට!
+    </marquee>
+  </div>
 
   <main class="container">
 
     <section class="filter-section">
       <div class="search-box">
-        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="🔍 සොයන්න... / Search Items...">
+        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="🔍 සොයන්න... / Search / தேடுக...">
       </div>
-      
+
       <div class="category-grid">
         <button class="filter-btn active" onclick="filterCategory('all', this)">සියල්ල (All)</button>
         <button class="filter-btn" onclick="filterCategory('upcountry', this)">උඩරට</button>
@@ -300,26 +350,80 @@
     <!-- PRODUCTS GRID -->
     <section class="products-grid" id="productsGrid"></section>
 
+    <!-- FORM & RECEIPT SUMMARY SECTION -->
     <section class="contact-section">
       <h2><i class="fa-brands fa-whatsapp" style="color: #25d366;"></i> ඇණවුම තහවුරු කරන්න</h2>
+      
+      <div id="orderSummaryBox" style="background: #f0fdf4; border: 1px dashed #16a34a; padding: 12px; border-radius: 8px; margin-bottom: 12px; display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #bbf7d0; padding-bottom: 4px; margin-bottom: 8px;">
+          <h4 style="color: #14532d; font-size: 13px;">Order Details</h4>
+          <button type="button" onclick="downloadReceiptPDF()" style="background: #0284c7; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; cursor: pointer;">
+            📥 Download PDF
+          </button>
+        </div>
+        <div id="summaryItemsList" style="font-size: 11px; color: #166534; line-height: 1.6; margin-bottom: 8px;"></div>
+        <div style="font-size: 13px; font-weight: bold; color: #14532d; border-top: 1px solid #bbf7d0; padding-top: 6px; text-align: right;">
+          Grand Total: <span id="grandTotalDisplay" style="color: #16a34a; font-size: 14px;">Rs. 0</span>
+        </div>
+      </div>
+
       <form id="whatsappForm" onsubmit="sendFormToWhatsApp(event)">
         <input type="text" id="custName" placeholder="ඔබගේ නම / Name" required>
         <input type="text" id="custAddress" placeholder="ලිපිනය / Address" required>
-        <textarea id="orderItems" rows="4" placeholder="තෝරාගත් ද්‍රව්‍ය..." required readonly></textarea>
+        <textarea id="orderItems" rows="4" placeholder="තෝරාගත් ද්‍රව්‍ය..." required readonly style="display: none;"></textarea>
         <button type="submit"><i class="fa-brands fa-whatsapp"></i> WhatsApp හරහා යවන්න</button>
       </form>
     </section>
 
-    <!-- ADMIN PANEL -->
+    <!-- 🔐 ADMIN PANEL -->
     <section id="adminPanel" class="admin-panel">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h3 style="color: #854d0e;">🔐 Admin Manager</h3>
-        <button onclick="closeAdminPanel()" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">✕</button>
+        <h3 style="color: #854d0e; font-size: 14px;">🔐 Admin Manager (Firebase Live)</h3>
+        <button onclick="closeAdminPanel()" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;">✕</button>
       </div>
 
-      <!-- ADD NEW PRODUCT FORM -->
+      <!-- ANALYTICS -->
+      <div class="analytics-grid">
+        <div class="analytics-card">
+          <h5>LIVE</h5>
+          <div id="admLiveCount">0</div>
+        </div>
+        <div class="analytics-card">
+          <h5>TODAY</h5>
+          <div id="admTodayCount">0</div>
+        </div>
+        <div class="analytics-card">
+          <h5>TOTAL</h5>
+          <div id="admTotalCount">0</div>
+        </div>
+      </div>
+
+      <!-- DAILY BANNER TEXT EDITOR -->
       <div style="background: #fefce8; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #fef08a;">
-        <h4 style="color: #854d0e; margin-bottom: 10px;">➕ புதிய பொருள் சேர்க்க (Add New Product)</h4>
+        <h4 style="color: #854d0e; margin-bottom: 8px; font-size: 12px;">📢 Daily Special Banner Text Update</h4>
+        <textarea id="admBannerInput" rows="2" placeholder="Enter today's special announcement text..." style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px; outline: none; margin-bottom: 8px;"></textarea>
+        <button onclick="updateBannerText()" style="background: #eab308; color: #713f12; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px;">💾 Update Banner Text</button>
+      </div>
+
+      <!-- HIDE OUT OF STOCK & PASSWORD ROW -->
+      <div style="display: flex; justify-content: space-between; align-items: center; background: #fef2f2; padding: 10px 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #fecaca; font-size: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; color: #166534;">
+          <span>Hide Out of Stock</span>
+          <label style="position: relative; display: inline-block; width: 34px; height: 18px;">
+            <input type="checkbox" id="hideStockToggle" onchange="toggleOutOfStock()" style="opacity:0; width:0; height:0;">
+            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 34px;" id="sliderBg"></span>
+            <span style="position: absolute; content: ''; height: 12px; width: 12px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;" id="sliderThumb"></span>
+          </label>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <input type="password" id="newAdminPassInput" placeholder="New Password" style="padding: 6px; border-radius: 4px; border: 1px solid #fca5a5; font-size: 11px; width: 130px;">
+          <button onclick="updateAdminPassword()" style="background: #dc2626; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px;">Update</button>
+        </div>
+      </div>
+
+      <!-- ADD NEW PRODUCT -->
+      <div style="background: #fefce8; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #fef08a;">
+        <h4 style="color: #854d0e; margin-bottom: 10px; font-size: 12px;">➕ නව භාණ්ඩයක් එක් කරන්න (Add New Product)</h4>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px;">
           <select id="newCategory" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
@@ -331,16 +435,16 @@
             <option value="fruits">පලතුරු (Fruits)</option>
           </select>
 
-          <input type="text" id="newNameSi" placeholder="பெயர் (Sinhala)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
-          <input type="text" id="newNameSub" placeholder="Name (English)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
+          <input type="text" id="newNameSi" placeholder="භාණ්ඩයේ නම (Sinhala)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
+          <input type="text" id="newNameSub" placeholder="Name (English/Tamil)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
           <input type="text" id="newImg" placeholder="Image URL Link" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
           <input type="number" id="newRetail" placeholder="Retail Price (Rs)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
           <input type="number" id="newWholesale" placeholder="Wholesale Price (Rs)" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
           
           <select id="newUnit" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
-            <option value="Kg">Kg (கிலோ)</option>
+            <option value="Kg">Kg (කிலோ)</option>
             <option value="Bundle">Bundle (கட்டு)</option>
-            <option value="Piece">Piece (காய்/எண்ணிக்கை)</option>
+            <option value="Piece">Piece (කෑලි)</option>
           </select>
 
           <input type="number" id="newMinWsQty" placeholder="Min Wholesale Qty" value="5" style="padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 11px;">
@@ -368,17 +472,93 @@
           <tbody id="adminTableBody"></tbody>
         </table>
       </div>
-      <button onclick="saveAdminChanges()" style="margin-top: 10px; background: #16a34a; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;">💾 Save Changes</button>
+      <button onclick="saveAdminChanges()" style="margin-top: 10px; background: #16a34a; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px;">💾 Save Changes to Database</button>
     </section>
 
   </main>
 
+  <footer class="site-footer">
+    Nuwaraeliya Wholesale Vegetable Market © 2026 – All Rights Reserved.
+  </footer>
+
   <script>
-    const primaryPhone = "94769073232";
-    const ADMIN_PASS = "1234";
+    const firebaseConfig = {
+      apiKey: "AIzaSyAhpCDA0Xyuh4XZO91f7L44DgY-YNfinxI",
+      authDomain: "nuwaraeliya-vegetable.firebaseapp.com",
+      databaseURL: "https://nuwaraeliya-vegetable-default-rtdb.firebaseio.com",
+      projectId: "nuwaraeliya-vegetable",
+      storageBucket: "nuwaraeliya-vegetable.firebasestorage.app",
+      messagingSenderId: "361405495518",
+      appId: "1:361405495518:web:0055e28779c678c1902a4f",
+      measurementId: "G-DY3TKDC04G"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const primaryPhone = "94767060289";
+    let currentAdminPass = "NuVege@2026#";
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const onlineUsersRef = db.ref('analytics/onlineUsers');
+    const connectedRef = db.ref('.info/connected');
+
+    if (!sessionStorage.getItem('visitedSession')) {
+      sessionStorage.setItem('visitedSession', 'true');
+      db.ref('analytics/totalViewers').transaction(count => (count || 0) + 1);
+      db.ref(`analytics/dailyViewers/${todayStr}`).transaction(count => (count || 0) + 1);
+    }
+
+    connectedRef.on('value', (snap) => {
+      if (snap.val() === true) {
+        const myUserRef = onlineUsersRef.push();
+        myUserRef.set(true);
+        myUserRef.onDisconnect().remove();
+      }
+    });
+
+    onlineUsersRef.on('value', snap => {
+      document.getElementById('admLiveCount').innerText = snap.numChildren() || 1;
+    });
+    db.ref(`analytics/dailyViewers/${todayStr}`).on('value', snap => {
+      document.getElementById('admTodayCount').innerText = snap.val() || 1;
+    });
+    db.ref('analytics/totalViewers').on('value', snap => {
+      document.getElementById('admTotalCount').innerText = snap.val() || 1;
+    });
+
+    db.ref('adminPassword').on('value', (snapshot) => {
+      const dbPass = snapshot.val();
+      if (dbPass) {
+        currentAdminPass = dbPass;
+      } else {
+        db.ref('adminPassword').set("NuVege@2026#");
+      }
+    });
+
+    db.ref('bannerText').on('value', (snapshot) => {
+      const bText = snapshot.val();
+      const displayEl = document.getElementById('marqueeTextDisplay');
+      const inputEl = document.getElementById('admBannerInput');
+      if (bText) {
+        if(displayEl) displayEl.innerText = bText;
+        if(inputEl) inputEl.value = bText;
+      }
+    });
+
+    function updateBannerText() {
+      const txt = document.getElementById('admBannerInput').value.trim();
+      if(!txt) {
+        alert("කරුණාකර නිවේදන පෙළ ඇතුළත් කරන්න!");
+        return;
+      }
+      db.ref('bannerText').set(txt).then(() => {
+        alert("දෛනික විශේෂ නිවේදනය සාර්ථකව යාවත්කාලීන විය!");
+      }).catch(err => alert("Error: " + err.message));
+    }
 
     const defaultProducts = [
-      { id: 1, nameSi: 'බෝංචි', nameSub: 'Beans', category: 'upcountry', retail: 260, wholesale: 220, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/sgNfS8J9/images-(19).jpg' },
+      { id: 1, nameSi: 'බෝංචි', nameSub: 'Beans / போஞ்சி', category: 'upcountry', retail: 260, wholesale: 220, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/sgNfS8J9/images-(19).jpg' },
       { id: 2, nameSi: 'කොල බීට්', nameSub: 'Beetroot', category: 'upcountry', retail: 220, wholesale: 180, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/g0LzKDM5/Untitled-2-6.jpg' },
       { id: 3, nameSi: 'කට බීට්', nameSub: 'Beetroot (Nu/Weli)', category: 'upcountry', retail: 230, wholesale: 190, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/L8b4f7TK/Beatroot.png' },
       { id: 4, nameSi: 'කට් බීට්', nameSub: 'Beetroot Cut', category: 'upcountry', retail: 240, wholesale: 200, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/4xS4tM1j/beetroor.jpg' },
@@ -388,14 +568,14 @@
       { id: 8, nameSi: 'රතු ගෝවා', nameSub: 'Red Cabbage', category: 'upcountry', retail: 350, wholesale: 290, unit: 'Kg', minWsQty: 1, inStock: true, img: 'https://i.postimg.cc/FKkrxZPw/images-(21).jpg' },
       { id: 9, nameSi: 'අතුගෝවා', nameSub: 'Athugowa', category: 'upcountry', retail: 200, wholesale: 160, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/VN0fFRG1/ck.jpg' },
       { id: 10, nameSi: 'මාළුමිරිස්', nameSub: 'Capsicum', category: 'upcountry', retail: 380, wholesale: 320, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/9fwmBp8c/01-550x550-removebg-preview-1.png' },
-      { id: 11, nameSi: 'කැරට්', nameSub: 'Carrot', category: 'upcountry', retail: 240, wholesale: 200, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/q76JGLbT/images-(18).jpg' },
+      { id: 11, nameSi: 'කැරට්', nameSub: 'Carrot / கேரட்', category: 'upcountry', retail: 240, wholesale: 200, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/q76JGLbT/images-(18).jpg' },
       { id: 12, nameSi: 'පිපිඤ්ඤා', nameSub: 'Cucumber', category: 'upcountry', retail: 140, wholesale: 100, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/MGf6YDPj/16669.png' },
       { id: 13, nameSi: 'අමු මිරිස්', nameSub: 'Green Chili', category: 'upcountry', retail: 400, wholesale: 340, unit: 'Kg', minWsQty: 1, inStock: true, img: 'https://i.postimg.cc/9fwmBp8Q/amu-miris.jpg' },
       { id: 14, nameSi: 'නෝකෝල්', nameSub: 'Knolkhol', category: 'upcountry', retail: 200, wholesale: 160, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/pTN2cF4d/310122-01-1555692320.jpg' },
       { id: 15, nameSi: 'ලීක්ස්', nameSub: 'Leeks', category: 'upcountry', retail: 240, wholesale: 200, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/tgnqz5SP/images-(22).jpg' },
       { id: 16, nameSi: 'සලාද', nameSub: 'Lettuce', category: 'upcountry', retail: 300, wholesale: 240, unit: 'Kg', minWsQty: 1, inStock: true, img: 'https://i.postimg.cc/RFrMpHyN/Lll.jpg' },
       { id: 17, nameSi: 'රාබු', nameSub: 'Radish', category: 'upcountry', retail: 150, wholesale: 110, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/xCr0pzhk/images-(23).jpg' },
-      { id: 18, nameSi: 'තක්කාලි', nameSub: 'Tomato', category: 'upcountry', retail: 220, wholesale: 180, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/MTkW3QNR/Tomato-Face-Packs-For-Different-Face-Types-1150x770-1.jpg' },
+      { id: 18, nameSi: 'තක්කාලි', nameSub: 'Tomato / தக்காளி', category: 'upcountry', retail: 220, wholesale: 180, unit: 'Kg', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/MTkW3QNR/Tomato-Face-Packs-For-Different-Face-Types-1150x770-1.jpg' },
       { id: 19, nameSi: 'බෙල් පෙපර් (රතු)', nameSub: 'Bell Pepper (Red)', category: 'upcountry', retail: 800, wholesale: 700, unit: 'Kg', minWsQty: 1, inStock: true, img: 'https://i.postimg.cc/k4rnYbzt/images-(24).jpg' },
       { id: 20, nameSi: 'බෙල් පෙපර් (කොළ)', nameSub: 'Bell Pepper (Green)', category: 'upcountry', retail: 600, wholesale: 520, unit: 'Kg', minWsQty: 1, inStock: true, img: 'https://i.postimg.cc/k4rnYbzs/LS508041CB-01-E.jpg' },
       { id: 21, nameSi: 'බෙල් පෙපර් (කහ)', nameSub: 'Bell Pepper (Yellow)', category: 'upcountry', retail: 800, wholesale: 700, unit: 'Kg', minWsQty: 1, inStock: true, img: 'https://i.postimg.cc/Ss0y1M3v/LS50800CA8-01-E.jpg' },
@@ -466,14 +646,45 @@
       { id: 86, nameSi: 'අඹ', nameSub: 'Mango (Regular)', category: 'fruits', retail: 250, wholesale: 200, unit: 'Piece', minWsQty: 5, inStock: true, img: 'https://i.postimg.cc/wj5D2GzZ/00-118.jpg' }
     ];
 
-    let storedProducts = localStorage.getItem('my_custom_products_v3');
-    let products = storedProducts ? JSON.parse(storedProducts) : [...defaultProducts];
-
+    let products = [];
     let cardState = {};
     let currentCategory = 'all';
+    let orderCart = [];
+    let hideOutOfStock = false;
+
+    db.ref('products').on('value', (snapshot) => {
+      const data = snapshot.val();
+      if (data && data.length >= 86) {
+        products = data;
+      } else {
+        products = [...defaultProducts];
+        db.ref('products').set(defaultProducts);
+      }
+      initStates();
+      renderProducts();
+      if(document.getElementById('adminPanel').style.display === 'block') {
+        renderAdminTable();
+      }
+    });
 
     function initStates() { 
-      products.forEach(p => { cardState[p.id] = { type: 'retail', qty: 1 }; }); 
+      products.forEach(p => { 
+        if(!cardState[p.id]) cardState[p.id] = { type: 'retail', qty: 1 }; 
+      }); 
+    }
+
+    function toggleOutOfStock() {
+      hideOutOfStock = document.getElementById('hideStockToggle').checked;
+      const sliderBg = document.getElementById('sliderBg');
+      const sliderThumb = document.getElementById('sliderThumb');
+      if(hideOutOfStock) {
+        sliderBg.style.backgroundColor = '#16a34a';
+        sliderThumb.style.transform = 'translateX(16px)';
+      } else {
+        sliderBg.style.backgroundColor = '#cbd5e1';
+        sliderThumb.style.transform = 'translateX(0)';
+      }
+      renderProducts();
     }
 
     function renderProducts() {
@@ -483,8 +694,11 @@
 
       const filtered = products.filter(p => {
         const matchesCat = (currentCategory === 'all' || p.category === currentCategory);
-        const matchesSrch = p.nameSi.toLowerCase().includes(searchVal) || p.nameSub.toLowerCase().includes(searchVal);
-        return matchesCat && matchesSrch;
+        const nameSi = p.nameSi.toLowerCase();
+        const nameSub = p.nameSub.toLowerCase();
+        const matchesSrch = nameSi.includes(searchVal) || nameSub.includes(searchVal);
+        const matchesStock = hideOutOfStock ? p.inStock : true;
+        return matchesCat && matchesSrch && matchesStock;
       });
 
       filtered.forEach(p => {
@@ -492,19 +706,25 @@
         const st = cardState[p.id];
         const minWs = (p.minWsQty || 5);
 
-        // AUTO WHOLESALE DISCOUNT CALCULATION
-        let activePrice = p.retail;
-        let isWholesaleApplied = false;
-
-        if (st.type === 'wholesale' || st.qty >= minWs) {
-          activePrice = p.wholesale;
-          isWholesaleApplied = true;
+        if (st.qty >= minWs) {
+          st.type = 'wholesale';
+        } else {
+          st.type = 'retail';
         }
 
+        let activePrice = (st.type === 'wholesale') ? p.wholesale : p.retail;
         const total = (st.qty * activePrice).toFixed(0);
 
+        let diffToWs = minWs - st.qty;
+        let upsellMsg = '';
+        if (st.qty < minWs && diffToWs > 0) {
+          upsellMsg = `<div style="font-size:7px; color:#d97706; background:#fef3c7; padding:2px; border-radius:2px; text-align:center; margin-bottom:4px;">තවත් ${diffToWs} ${p.unit}ක් එකතු කළහොත් තොග මිල (Wholesale) ලැබේ!</div>`;
+        }
+
+        const isInCart = orderCart.some(item => item.id === p.id);
+
         const card = document.createElement('div');
-        card.className = `product-card ${!p.inStock ? 'out-of-stock' : ''}`;
+        card.className = `product-card ${!p.inStock ? 'out-of-stock' : ''} ${isInCart ? 'ordered-item' : ''}`;
         card.innerHTML = `
           <span class="stock-tag ${p.inStock ? 'in' : 'out'}">${p.inStock ? 'In Stock' : 'Out'}</span>
           <img src="${p.img}" alt="${p.nameSi}" class="product-img">
@@ -515,12 +735,14 @@
             </div>
             
             <div class="pricing-toggle">
-              <button class="toggle-btn ${st.type === 'retail' ? 'active' : ''}" onclick="selectType(${p.id}, 'retail')" ${!p.inStock ? 'disabled' : ''}>සිල්ලර (${p.retail})</button>
-              <button class="toggle-btn ${st.type === 'wholesale' ? 'active' : ''}" onclick="selectType(${p.id}, 'wholesale')" ${!p.inStock ? 'disabled' : ''}>තොග (${p.wholesale})</button>
+              <button class="toggle-btn ${st.type === 'retail' ? 'active' : ''}" type="button" ${!p.inStock ? 'disabled' : ''}>සිල්ලර (${p.retail})</button>
+              <button class="toggle-btn ${st.type === 'wholesale' ? 'active' : ''}" type="button" ${!p.inStock ? 'disabled' : ''}>තොග (${p.wholesale})</button>
             </div>
 
-            <div class="ws-info" style="${isWholesaleApplied ? 'background:#dcfce7; color:#15803d;' : ''}">
-              ${isWholesaleApplied ? '🎉 Wholesale Price Applied!' : `Min Wholesale: ${minWs} ${p.unit || 'Kg'}`}
+            ${upsellMsg}
+
+            <div class="ws-info" style="${st.type === 'wholesale' ? 'background:#dcfce7; color:#15803d;' : ''}">
+              ${st.type === 'wholesale' ? '🎉 Wholesale Price Applied!' : `Min Wholesale: ${minWs} ${p.unit || 'Kg'}`}
             </div>
 
             <div class="controls-row">
@@ -532,24 +754,12 @@
               <div class="total-price"><strong>Rs. ${total}</strong></div>
             </div>
             <button class="add-btn" onclick="addToOrder(${p.id})" ${!p.inStock ? 'disabled' : ''}>
-              ${p.inStock ? '+ එකතු කරන්න 🛒' : 'Out of Stock 🔴'}
+              ${p.inStock ? (isInCart ? '✓ එකතු කළා' : '+ එකතු කරන්න') : 'Out of Stock'}
             </button>
           </div>
         `;
         grid.appendChild(card);
       });
-    }
-
-    function selectType(id, type) {
-      const p = products.find(item => item.id === id);
-      if (!cardState[id]) cardState[id] = { type: 'retail', qty: 1 };
-      cardState[id].type = type;
-      
-      const minQty = (p && p.minWsQty) ? p.minWsQty : 5;
-      if (type === 'wholesale' && cardState[id].qty < minQty) {
-        cardState[id].qty = minQty;
-      }
-      renderProducts();
     }
 
     function changeQty(id, delta) {
@@ -580,18 +790,111 @@
     function addToOrder(id) {
       const p = products.find(item => item.id === id);
       if (!p || !p.inStock) return;
+      
       const st = cardState[id];
       const minWs = p.minWsQty || 5;
 
-      let isWholesale = (st.type === 'wholesale' || st.qty >= minWs);
+      let isWholesale = (st.qty >= minWs);
       let unitPrice = isWholesale ? p.wholesale : p.retail;
-      let total = (st.qty * unitPrice).toFixed(0);
+      let total = parseFloat((st.qty * unitPrice).toFixed(0));
       let unitText = p.unit || 'Kg';
-      
+
+      const existingIndex = orderCart.findIndex(item => item.id === id);
+      if (existingIndex > -1) {
+        orderCart[existingIndex] = { ...p, qty: st.qty, isWholesale, unitPrice, total, unitText };
+      } else {
+        orderCart.push({ ...p, qty: st.qty, isWholesale, unitPrice, total, unitText });
+      }
+
+      updateOrderReceiptUI();
+      renderProducts();
+    }
+
+    function updateOrderReceiptUI() {
+      const summaryBox = document.getElementById('orderSummaryBox');
+      const itemsList = document.getElementById('summaryItemsList');
+      const grandTotalEl = document.getElementById('grandTotalDisplay');
       const textarea = document.getElementById('orderItems');
-      const compactText = `🛒 ${p.nameSi} - ${st.qty} ${unitText} (${isWholesale ? 'තොග' : 'සිල්ලර'}) | Rs. ${total}\n`;
-      textarea.value += compactText;
-      alert(`එකතු කරන ලදී: ${p.nameSi} (${st.qty} ${unitText})`);
+
+      if (orderCart.length === 0) {
+        summaryBox.style.display = 'none';
+        textarea.value = '';
+        return;
+      }
+
+      summaryBox.style.display = 'block';
+      itemsList.innerHTML = '';
+      let grandTotal = 0;
+      let rawText = '';
+
+      orderCart.forEach((item, idx) => {
+        grandTotal += item.total;
+        
+        // UI Display: Products Name (Sinhala only), Grand Total (English only)
+        itemsList.innerHTML += `
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dotted #dcfce7; padding: 2px 0;">
+            <span>${idx + 1}. ${item.nameSi} (${item.qty} ${item.unitText})</span>
+            <strong>Rs. ${item.total}</strong>
+          </div>
+        `;
+
+        // WhatsApp / Raw Text formatted specifically as requested
+        rawText += `${idx + 1}. ${item.nameSi} - ${item.qty} ${item.unitText}  | Rs. ${item.total}\n`;
+      });
+
+      grandTotalEl.innerText = `Rs. ${grandTotal}`;
+      textarea.value = rawText + `\n💰 *Grand Total:* Rs. ${grandTotal}`;
+    }
+
+    function downloadReceiptPDF() {
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Nuwara Eliya Wholesale Vegetable Market", 20, 20);
+        doc.setFontSize(12);
+        doc.text("Order Details", 20, 30);
+        
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        doc.text(`Date: ${new Date().toLocaleString()}`, 20, 38);
+        
+        let y = 48;
+        doc.setFont("helvetica", "bold");
+        doc.text("Item Name", 20, y);
+        doc.text("Qty", 110, y);
+        doc.text("Total (Rs)", 150, y);
+        
+        doc.line(20, 52, 190, 52);
+        y = 60;
+        doc.setFont("helvetica", "normal");
+
+        let grandTotal = 0;
+        orderCart.forEach((item, index) => {
+          grandTotal += item.total;
+          doc.text(`${index + 1}. ${item.nameSi}`, 20, y);
+          doc.text(`${item.qty} ${item.unitText}`, 110, y);
+          doc.text(`Rs. ${item.total}`, 150, y);
+          y += 8;
+        });
+
+        doc.line(20, y + 2, 190, y + 2);
+        y += 10;
+        doc.setFont("helvetica", "bold");
+        doc.text(`Grand Total: Rs. ${grandTotal}`, 130, y);
+
+        const pdfOutput = doc.output('datauristring');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pdfOutput;
+        downloadLink.download = 'Order_Summary.pdf';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      } catch (err) {
+        alert("PDF Download Error: " + err.message);
+      }
     }
 
     function sendFormToWhatsApp(e) {
@@ -599,12 +902,16 @@
       const name = document.getElementById('custName').value;
       const address = document.getElementById('custAddress').value;
       const items = document.getElementById('orderItems').value;
-      if(!items.trim()) { alert('කරුණාකර එළවළු එකතු කරන්න!'); return; }
+      
+      if(!items.trim() || orderCart.length === 0) { 
+        alert('කරුණාකර එළවළු එකතු කරන්න!'); 
+        return; 
+      }
+      
       const msg = `*NEW VEGETABLE ORDER*\n\n*Name:* ${name}\n*Address:* ${address}\n\n*Items Ordered:*\n${items}`;
       window.open(`https://wa.me/${primaryPhone}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    /* Secret Admin Login */
     let clickCount = 0, clickTimer;
     document.getElementById('bannerHeader').addEventListener('click', () => {
       clickCount++; clearTimeout(clickTimer);
@@ -612,17 +919,29 @@
       else { clickTimer = setTimeout(() => { clickCount = 0; }, 1000); }
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); openAdminAuth(); }
-    });
-
     function openAdminAuth() {
       let p = prompt("🔐 Admin Password:");
-      if(p === ADMIN_PASS) {
+      if(p === currentAdminPass) {
         document.getElementById('adminPanel').style.display = 'block';
         renderAdminTable();
         document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
-      } else if (p !== null) { alert("தவறான Password!"); }
+      } else if (p !== null) { 
+        alert("තවදුරටත් වැරදියි!"); 
+      }
+    }
+
+    function updateAdminPassword() {
+      const newPass = document.getElementById('newAdminPassInput').value.trim();
+      if(!newPass) {
+        alert("தயவுசெய்து புதிய Password-ஐ உள்ளிடவும்!");
+        return;
+      }
+      db.ref('adminPassword').set(newPass)
+        .then(() => {
+          alert("Admin Password வெற்றிகரமாக மாற்றப்பட்டது!");
+          document.getElementById('newAdminPassInput').value = '';
+        })
+        .catch(err => alert("Error: " + err.message));
     }
 
     function closeAdminPanel() { document.getElementById('adminPanel').style.display = 'none'; }
@@ -668,45 +987,22 @@
       }
 
       const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-
-      const newProductObj = {
-        id: newId,
-        nameSi: nameSi,
-        nameSub: nameSub,
-        category: cat,
-        retail: retail,
-        wholesale: wholesale,
-        unit: unit,
-        minWsQty: minWsQty,
-        inStock: true,
-        img: img
-      };
-
-      products.push(newProductObj);
-      cardState[newId] = { type: 'retail', qty: 1 };
+      products.push({ id: newId, nameSi, nameSub, category: cat, retail, wholesale, unit, minWsQty, inStock: true, img });
       
-      localStorage.setItem('my_custom_products_v3', JSON.stringify(products));
-
-      document.getElementById('newNameSi').value = '';
-      document.getElementById('newNameSub').value = '';
-      document.getElementById('newImg').value = '';
-      document.getElementById('newRetail').value = '';
-      document.getElementById('newWholesale').value = '';
-      document.getElementById('newMinWsQty').value = '5';
-
-      renderProducts();
-      renderAdminTable();
-      alert("புதிய பொருள் வெற்றிகரமாக சேர்க்கப்பட்டது!");
+      db.ref('products').set(products).then(() => {
+        alert("புதிய பொருள் Firebase-இல் சேமிக்கப்பட்டது!");
+        document.getElementById('newNameSi').value = '';
+        document.getElementById('newNameSub').value = '';
+        document.getElementById('newImg').value = '';
+        document.getElementById('newRetail').value = '';
+        document.getElementById('newWholesale').value = '';
+      });
     }
 
     function deleteProduct(id) {
       if (confirm("இந்த பொருளை நிச்சயமாக நீக்க வேண்டுமா?")) {
         products = products.filter(p => p.id !== id);
-        delete cardState[id];
-        localStorage.setItem('my_custom_products_v3', JSON.stringify(products));
-        renderProducts();
-        renderAdminTable();
-        alert("பொருள் நீக்கப்பட்டது!");
+        db.ref('products').set(products);
       }
     }
 
@@ -725,14 +1021,10 @@
         p.inStock = sVal;
       });
       
-      localStorage.setItem('my_custom_products_v3', JSON.stringify(products));
-      renderProducts();
-      alert("මාற்றங்கள் சேமிக்கப்பட்டන!");
+      db.ref('products').set(products)
+        .then(() => alert("தரவுத்தளம் வெற்றிகரமாக நேரலையில் புதுப்பிக்கப்பட்டது!"))
+        .catch(err => alert("Error: " + err.message));
     }
-
-    // Initialize Page
-    initStates();
-    renderProducts();
   </script>
 </body>
-</html>
+          </html>
